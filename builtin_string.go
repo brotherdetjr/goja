@@ -619,6 +619,12 @@ func (r *Runtime) stringproto_toUpperCase(call FunctionCall) Value {
 	return s.toUpper()
 }
 
+func (r *Runtime) stringproto_render(call FunctionCall) Value {
+	r.checkObjectCoercible(call.This)
+	args := append([]Value{call.This}, call.Arguments...)
+	return r.globalObject.Get("nunjucks").ToObject(r).Get("renderString").Export().((func(call FunctionCall) Value))(FunctionCall{call.This, args})
+}
+
 func (r *Runtime) stringproto_trim(call FunctionCall) Value {
 	r.checkObjectCoercible(call.This)
 	s := call.This.ToString()
@@ -673,6 +679,7 @@ func (r *Runtime) initString() {
 	o._putProp("toUpperCase", r.newNativeFunc(r.stringproto_toUpperCase, nil, "toUpperCase", nil, 0), true, false, true)
 	o._putProp("toLocaleUpperCase", r.newNativeFunc(r.stringproto_toUpperCase, nil, "toLocaleUpperCase", nil, 0), true, false, true)
 	o._putProp("trim", r.newNativeFunc(r.stringproto_trim, nil, "trim", nil, 0), true, false, true)
+	o._putProp("render", r.newNativeFunc(r.stringproto_render, nil, "render", nil, 1), true, false, true)
 
 	// Annex B
 	o._putProp("substr", r.newNativeFunc(r.stringproto_substr, nil, "substr", nil, 2), true, false, true)

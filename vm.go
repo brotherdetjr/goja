@@ -454,6 +454,7 @@ func (r *Runtime) toCallee(v Value) *Object {
 	}
 	switch unresolved := v.(type) {
 	case valueUnresolved:
+		println("Vot jopa-to: " + unresolved.ref)
 		unresolved.throw()
 		panic("Unreachable")
 	case memberUnresolved:
