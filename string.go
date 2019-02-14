@@ -75,6 +75,10 @@ func newStringValue(s string) valueString {
 	return asciiString(s)
 }
 
+func NewStringValue(s string) valueString {
+	return newStringValue(s)
+}
+
 func (s *stringObject) init() {
 	s.baseObject.init()
 	s.setLength()
