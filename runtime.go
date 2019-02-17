@@ -762,6 +762,10 @@ func New() *Runtime {
 	return r
 }
 
+func (r *Runtime) SetResolver(resolver *Object) {
+	r.vm.resolver = resolver
+}
+
 // Compile creates an internal representation of the JavaScript code that can be later run using the Runtime.RunProgram()
 // method. This representation is not linked to a runtime in any way and can be run in multiple runtimes (possibly
 // at the same time).
