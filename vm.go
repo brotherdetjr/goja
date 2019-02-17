@@ -115,8 +115,6 @@ type vm struct {
 	interrupted   uint32
 	interruptVal  interface{}
 	interruptLock sync.Mutex
-
-	resolver *Object
 }
 
 type instruction interface {
@@ -456,9 +454,9 @@ func (r *Runtime) toCallee(v Value) *Object {
 	}
 	switch unresolved := v.(type) {
 	case valueUnresolved:
-		if r.vm.resolver != nil {
+		if r.resolver != nil {
 			r.vm.push(newStringValue(unresolved.ref))
-			return r.vm.resolver
+			return r.resolver
 		}
 		unresolved.throw()
 		panic("Unreachable")
@@ -1806,7 +1804,7 @@ repeat:
 	case *funcObject:
 		vm.pc++
 		vm.pushCtx()
-		if vm.resolver != nil && obj == vm.resolver {
+		if vm.r.resolver != nil && obj == vm.r.resolver {
 			n++
 		}
 		vm.args = n

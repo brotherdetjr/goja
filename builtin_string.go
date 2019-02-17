@@ -622,7 +622,7 @@ func (r *Runtime) stringproto_toUpperCase(call FunctionCall) Value {
 func (r *Runtime) stringproto_render(call FunctionCall) Value {
 	r.checkObjectCoercible(call.This)
 	args := append([]Value{call.This}, call.Arguments...)
-	return r.globalObject.Get("nunjucks").ToObject(r).Get("renderString").Export().((func(call FunctionCall) Value))(FunctionCall{call.This, args})
+	return r.templateRenderer.ToObject(r).Get(r.templateRendererMethod).Export().((func(call FunctionCall) Value))(FunctionCall{call.This, args})
 }
 
 func (r *Runtime) stringproto_trim(call FunctionCall) Value {

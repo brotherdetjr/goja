@@ -103,6 +103,11 @@ type Runtime struct {
 	fieldNameMapper FieldNameMapper
 
 	vm *vm
+
+	resolver *Object
+
+	templateRenderer       Value
+	templateRendererMethod string
 }
 
 type stackFrame struct {
@@ -763,7 +768,12 @@ func New() *Runtime {
 }
 
 func (r *Runtime) SetResolver(resolver *Object) {
-	r.vm.resolver = resolver
+	r.resolver = resolver
+}
+
+func (r *Runtime) SetTemplateRenderer(renderer Value, method string) {
+	r.templateRenderer = renderer
+	r.templateRendererMethod = method
 }
 
 // Compile creates an internal representation of the JavaScript code that can be later run using the Runtime.RunProgram()
